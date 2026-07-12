@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ratan Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700;1,6..96,900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
+<style>
+  :root {
+    --orange: #FF4D00;
+    --orange-light: #FF6B2B;
+    --black: #0A0A0A;
+    --white: #F5F0E8;
+    --cream: #EDE8DF;
+    --dot-size: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--orange);
+    color: var(--black);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 18px; height: 18px;
+    background: var(--black);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, background 0.2s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-trail {
+    position: fixed;
+    width: 40px; height: 40px;
+    border: 2px solid var(--black);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: left 0.15s ease, top 0.15s ease;
+  }
+
+  /* NAVBAR */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: var(--orange);
+    border-bottom: 2px solid var(--black);
+  }
+
+  .nav-logo {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 26px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1px;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    padding: 8px 18px;
+    border: 2px solid var(--black);
+    border-radius: 100px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    background: var(--black);
+    color: var(--orange);
+  }
+
+  .nav-dot {
+    width: 10px; height: 10px;
+    background: var(--black);
+    border-radius: 50%;
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 140px 48px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(120px, 25vw, 320px);
+    text-transform: uppercase;
+    color: var(--orange-light);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.35;
+    letter-spacing: -2px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  .hero-badge span {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--black);
+    border-radius: 50%;
+  }
+
+  .hero-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(90px, 16vw, 240px);
+    text-transform: uppercase;
+    line-height: 0.88;
+    letter-spacing: 0px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--white);
+  }
+
+  .hero-title span, .hero-title em {
+    transition: color 0.3s ease;
+  }
+
+  .hero-title:hover span {
+    color: var(--white);
+  }
+
+  .hero-title:hover em {
+    color: var(--black);
+  }
+
+  .hero-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-desc {
+    max-width: 340px;
+    font-size: 13px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .hero-scroll-line {
+    width: 60px;
+    height: 1px;
+    background: var(--black);
+    transform-origin: left;
+    animation: lineGrow 1.5s ease infinite;
+  }
+
+  @keyframes lineGrow {
+    0%, 100% { transform: scaleX(1); opacity: 1; }
+    50% { transform: scaleX(0.3); opacity: 0.4; }
+  }
+
+  .hero-ticket {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(-50%) rotate(-3deg); }
+    50% { transform: translateY(calc(-50% - 18px)) rotate(2deg); }
+  }
+
+  /* TICKET CARD (hero mini) */
+  .mini-ticket {
+    width: 240px;
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid var(--black);
+    box-shadow: 8px 8px 0 var(--black);
+  }
+
+  .mini-ticket-img {
+    width: 100%;
+    height: 240px;
+    background: #1a1008;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mini-ticket-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 30% 30%, #3d2b1a 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 70%, #1a0f08 0%, transparent 60%);
+  }
+
+  .mini-ticket-dot {
+    position: absolute;
+    width: 22px; height: 22px;
+    background: var(--orange);
+    border-radius: 50%;
+  }
+
+  .mini-ticket-dot.tl { top: 12px; left: 12px; }
+  .mini-ticket-dot.br { bottom: 12px; right: 12px; }
+
+  .mini-ticket-punch {
+    width: 20px; height: 20px;
+    background: var(--orange);
+    border-radius: 50%;
+    margin: -10px auto 0;
+    border: 2px solid var(--black);
+  }
+
+  .mini-ticket-body {
+    padding: 10px 14px 14px;
+  }
+
+  .mini-ticket-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .mini-ticket-date span { flex: 1; height: 1px; background: var(--black); }
+
+  .mini-ticket-name {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 22px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .mini-ticket-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1.5px dotted var(--black);
+  }
+
+  .mini-ticket-label::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--black);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SECTION SHARED */
+  section {
+    padding: 100px 48px;
+    border-top: 2px solid var(--black);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    gap: 20px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--black);
+    border-radius: 50%;
+  }
+
+  .section-title {
+    font-family: 'Bodoni Moda', serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  .section-title em { font-style: italic; }
+
+  /* ABOUT SECTION */
+  #about {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .about-card {
+    background: var(--orange);
+    color: var(--black);
+    border: 2px solid var(--black);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 6px 6px 0 var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    background: var(--black);
+    border-radius: 50%;
+    opacity: 0.07;
+  }
+
+  .about-card-num {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 80px;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1;
+    opacity: 0.15;
+    margin-bottom: -20px;
+    display: block;
+  }
+
+  .about-card h3 {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  .about-card p {
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .about-text {
+    padding: 10px 0;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .about-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .skill-tag {
+    padding: 6px 16px;
+    border: 2px solid currentColor;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .skill-tag:hover {
+    background: var(--black);
+    color: var(--orange);
+    border-color: var(--black);
+  }
+
+  /* PORTFOLIO SECTION */
+  #portfolio {
+    background: var(--black);
+    color: var(--white);
+    border-top-color: var(--black);
+  }
+
+  #portfolio .section-label::before { background: var(--orange); }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* TICKET CARD */
+  .ticket-card {
+    background: var(--white);
+    color: var(--black);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 0 0 var(--orange);
+    transition: transform 0.3s cubic-bezier(.2,.8,.3,1.2), box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .ticket-card:hover {
+    transform: translateY(-8px) rotate(-1deg);
+    box-shadow: 8px 12px 0 var(--orange);
+  }
+
+  .ticket-card.orange-card {
+    background: var(--orange);
+  }
+
+  .ticket-card.black-card {
+    background: var(--black);
+    color: var(--white);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .ticket-img {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: #1a1008;
+  }
+
+  .ticket-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) contrast(1.1);
+    transition: filter 0.3s, transform 0.5s;
+    display: block;
+  }
+
+  .ticket-card:hover .ticket-img img { 
+    filter: sepia(0%) contrast(1.2);
+    transform: scale(1.04);
+  }
+
+  .ticket-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 48px;
+    font-style: italic;
+    opacity: 0.3;
+  }
+
+  .ticket-accent {
+    position: absolute;
+    width: 26px; height: 26px;
+    background: var(--orange);
+    border-radius: 50%;
+  }
+
+  .ticket-accent.tl { top: 14px; left: 14px; }
+  .ticket-accent.tr { top: 14px; right: 14px; }
+
+  .ticket-card.orange-card .ticket-accent { background: var(--white); }
+  .ticket-card.black-card .ticket-accent { background: var(--orange); }
+
+  .ticket-punch-row {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ticket-punch-row::before,
+  .ticket-punch-row::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+  }
+
+  .ticket-punch-row::before { left: -2px; background: var(--black); }
+  .ticket-punch-row::after  { right: -2px; background: var(--black); }
+
+  .ticket-card.black-card .ticket-punch-row::before,
+  .ticket-card.black-card .ticket-punch-row::after {
+    border-color: var(--white);
+    background: #0A0A0A;
+  }
+
+  .ticket-punch {
+    width: 24px; height: 24px;
+    background: var(--orange);
+    border-radius: 50%;
+    border: 2px solid var(--black);
+  }
+
+  .ticket-card.orange-card .ticket-punch { background: var(--white); }
+  .ticket-card.black-card .ticket-punch { background: var(--orange); border-color: var(--black); }
+
+  .ticket-body {
+    padding: 16px 20px 20px;
+  }
+
+  .ticket-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .ticket-meta .dash {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+    margin: 0 8px;
+  }
+
+  .ticket-year { font-size: 9px; opacity: 0.6; }
+
+  .ticket-name {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 32px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1px;
+    line-height: 1.0;
+    margin-bottom: 6px;
+  }
+
+  .ticket-subtitle {
+    font-size: 11px;
+    font-weight: 300;
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+
+  .ticket-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 14px;
+  }
+
+  .ticket-tag {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1.5px solid currentColor;
+    border-radius: 100px;
+    opacity: 0.7;
+  }
+
+  .ticket-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1.5px dotted currentColor;
+    opacity: 0.8;
+  }
+
+  .ticket-label-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ticket-label-row::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: currentColor;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ticket-barcode {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 24px;
+  }
+
+  .ticket-barcode span {
+    display: block;
+    width: 2px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* FEATURED (wide) card */
+  .ticket-card.wide {
+    grid-column: span 2;
+    width: 90%;
+  }
+
+  .ticket-card.wide .ticket-img {
+    height: 320px;
+  }
+
+  .ticket-card.wide .ticket-name {
+    font-size: 44px;
+  }
+
+  /* CONTACT / FOOTER */
+  #contact {
+    background: var(--white);
+    color: var(--black);
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: var(--orange);
+    border-radius: 50%;
+    opacity: 0.15;
+  }
+
+  .contact-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+  }
+
+  .contact-left { flex: 1; }
+
+  .contact-title {
+    font-family: 'Bodoni Moda', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 0.95;
+    margin-bottom: 32px;
+  }
+
+  .contact-title em { font-style: italic; color: var(--orange); }
+
+  .contact-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--black);
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    border: 2px solid var(--black);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .contact-link:hover {
+    background: var(--orange);
+    color: var(--black);
+  }
+
+  .contact-link.outline {
+    background: transparent;
+    color: var(--black);
+  }
+
+  .contact-link.outline:hover {
+    background: var(--black);
+    color: var(--orange);
+  }
+
+
+
+  .contact-ticket {
+    position: relative;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid var(--orange);
+  }
+
+  footer .logo {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 20px;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  footer p {
+    font-size: 11px;
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.85);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(6px);
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--white);
+    color: var(--black);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh; /* Restrict height to allow scrolling */
+    border: 2px solid var(--black);
+    box-shadow: 10px 10px 0 var(--orange);
+    overflow-y: auto; /* Enable vertical scroll */
+    overflow-x: hidden;
+    transform: translateY(30px) scale(0.96);
+    transition: transform 0.3s cubic-bezier(.2,.8,.3,1.2);
+  }
+
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-img {
+    width: 100%; height: 200px;
+    background: #1a1008;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .modal-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bodoni Moda', serif;
+    font-size: 72px;
+    font-style: italic;
+    opacity: 0.2;
+    color: var(--white);
+  }
+
+  .modal-accent {
+    position: absolute;
+    width: 40px; height: 40px;
+    background: var(--orange);
+    border-radius: 50%;
+    top: 20px; right: 20px;
+  }
+
+  .modal-body {
+    padding: 30px 36px 36px;
+  }
+
+  .modal-meta {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+
+  .modal-title {
+    font-family: 'Bodoni Moda', serif;
+    font-size: 44px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+
+  .modal-desc {
+    font-size: 13px;
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 36px; height: 36px;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+  }
+
+  .modal-close:hover { background: var(--orange); }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+  .stagger-5 { transition-delay: 0.5s; }
+
+  /* Ticker tape */
+  .ticker {
+    background: var(--black);
+    color: var(--orange);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 18s linear infinite;
+  }
+
+  .ticker-inner span {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-right: 48px;
+  }
+
+  .ticker-inner span::before {
+    content: '● ';
+    color: var(--orange);
+    opacity: 0.6;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    section { padding: 70px 24px; }
+    #hero { padding: 120px 24px 50px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .ticket-card.wide { grid-column: span 1; }
+    .ticket-card.wide .ticket-name { font-size: 32px; }
+    .hero-ticket { display: none; }
+    .contact-inner { flex-direction: column; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#hero" class="nav-logo">Ratan</a>
+  <ul class="nav-links">
+    <li><a href="#about" class="nav-link-item">About</a></li>
+    <li><a href="#portfolio" class="nav-link-item">Portfolio</a></li>
+    <li><a href="#contact" class="nav-link-item">Contact</a></li>
+  </ul>
+  <div class="nav-dot"></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div id="particle-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; mix-blend-mode: difference; pointer-events: none;"></div>
+
+  <div class="hero-ticket">
+    <div class="mini-ticket">
+      <div class="mini-ticket-img">
+        <img src="ratan.png" style="position: absolute; width: 100%; height: 100%; object-fit: cover;">
+        <div class="mini-ticket-dot tl"></div>
+        <div class="mini-ticket-dot br"></div>
+      </div>
+      <div class="mini-ticket-punch"></div>
+      <div class="mini-ticket-body">
+        <div class="mini-ticket-date">25 <span></span> 07 <span style="flex:0;opacity:.5;font-size:8px">2025</span></div>
+        <div class="mini-ticket-name" style="font-size: 26px;">Ratan Singh</div>
+        <div class="mini-ticket-label">Ticket</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="hero-badge"><span></span> Creative Portfolio — 2025</div>
+    <h1 class="hero-title">
+      <span>RATAN'S</span><br><em>PORTFOLIO</em>
+    </h1>
+  </div>
+  <div class="hero-bottom reveal stagger-2">
+    <p class="hero-desc">Crafting editorial experiences that blend<br>classical aesthetics with modern digital craft.</p>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="tickerInner">
+    <span>UI / UX Design</span>
+    <span>Brand Identity</span>
+    <span>Editorial Design</span>
+    <span>Web Development</span>
+    <span>Motion Graphics</span>
+    <span>Art Direction</span>
+    <span>Typography</span>
+    <span>UI / UX Design</span>
+    <span>Brand Identity</span>
+    <span>Editorial Design</span>
+    <span>Web Development</span>
+    <span>Motion Graphics</span>
+    <span>Art Direction</span>
+    <span>Typography</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">01 — About me</div>
+      <h2 class="section-title">Who <em>I Am</em></h2>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text reveal stagger-1">
+      <p style="font-weight: 600; font-size: 16px; margin-bottom: 12px; color: var(--orange);">Aspiring Data Scientist</p>
+      <p>"I’m Ratan Singh. I hunt for clues in data and use them."</p>
+      <p>As a student working with Data Science, I enjoy turning messy numbers into clean, friendly digital products. My goal is to make sure charts don't look boring and apps actually make sense to real humans.</p>
+      <div class="about-skills">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Data Analysis</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Data Visualization</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div class="about-card reveal stagger-2">
+        <span class="about-card-num">100%</span>
+        <h3>Data Driven</h3>
+        <p>Passionate about finding the hidden stories inside raw numbers and complex datasets.</p>
+      </div>
+      <div class="about-card reveal stagger-3">
+        <span class="about-card-num">24/7</span>
+        <h3>Continuous Learner</h3>
+        <p>Constantly experimenting with new algorithms, Python libraries, and analytical tools to sharpen my skills.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">02 — Selected Work</div>
+      <h2 class="section-title"><em>Portfolio</em></h2>
+    </div>
+  </div>
+
+  <div class="portfolio-grid" id="portfolioGrid">
+    <!-- Cards injected by JS -->
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <div class="section-label" style="margin-bottom:20px">03 — Get in Touch</div>
+      <h2 class="contact-title">Let's<br><em>Work</em><br>Together</h2>
+      <div class="contact-links">
+        <a href="mailto:sursinghratan@gmail.com" class="contact-link">✉ Email me</a>
+        <a href="tel:9311855581" class="contact-link outline">📞 9311855581</a>
+        <a href="https://www.linkedin.com/in/ratansingh66" class="contact-link outline">↗ LinkedIn</a>
+      </div>
+    </div>
+    <div class="contact-ticket reveal stagger-2">
+      <div class="mini-ticket" style="width:200px;transform:rotate(5deg)">
+        <div class="mini-ticket-img" style="height:170px;background:#0a0a0a">
+          <div class="mini-ticket-dot tl" style="width:28px;height:28px"></div>
+          <div class="mini-ticket-dot br" style="width:18px;height:18px"></div>
+        </div>
+        <div class="mini-ticket-punch" style="background:var(--white);width:24px;height:24px;margin-top:-12px"></div>
+        <div class="mini-ticket-body">
+          <div class="mini-ticket-date" style="font-size:13px">25 <span></span> 07</div>
+          <div class="mini-ticket-name" style="font-size:28px">hello.</div>
+          <div class="mini-ticket-label">Open to work</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo">Ratan</span>
+  <p>© 2025 — All rights reserved</p>
+  <p>Designed with intention</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal" style="position:relative">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-img" id="modalImg">
+      <div class="modal-img-placeholder" id="modalImgPlaceholder"></div>
+      <div class="modal-accent"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-actions">
+        <a href="#" class="contact-link" id="modalLink">View Project ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // Portfolio data
+  const projects = [
+    {
+      id: 1,
+      num: '01',
+      year: '2025',
+      name: 'Stock Vault',
+      subtitle: 'Data Analysis & Database',
+      tags: ['Python', 'SQL', 'Data Science'],
+      desc: 'A comprehensive data analysis project exploring daily stock prices and structured storage using SQL and Python.',
+      extraHtml: `
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 1 &mdash; The Problem</h3>
+<p style="font-size:13px; line-height:1.8; margin-bottom:16px;">Apple and Tesla are two of the most watched stocks in the world. I wanted to answer one question &mdash; over 5 years, who grew more and which one carried more risk? This project builds a complete data pipeline from raw CSV data all the way to a professional financial dashboard.</p>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 2 &mdash; How It Was Built</h3>
+<img src="pipeline.png" style="width:100%; border-radius:12px; margin-bottom:16px; object-fit: cover;">
+<p style="font-size:13px; line-height:1.8; margin-bottom:8px;">Built an end-to-end data engineering pipeline. Raw historical stock data was loaded into a MySQL database, queried using advanced SQL, then pulled into Python for analysis and visualization.</p>
+<ul style="font-size:13px; line-height:1.8; margin-bottom:16px; margin-left: 20px;">
+  <li><strong>MySQL</strong> &mdash; database storage and querying</li>
+  <li><strong>Python</strong> &mdash; data analysis and visualization</li>
+  <li><strong>Pandas</strong> &mdash; data manipulation and normalization</li>
+  <li><strong>Matplotlib</strong> &mdash; chart building</li>
+  <li><strong>Scikit-learn</strong> &mdash; linear regression trend lines</li>
+</ul>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 3 &mdash; The Analysis</h3>
+<p style="font-size:13px; line-height:1.8; margin-bottom:16px;">Both stocks were normalized to a baseline of 100 so growth could be compared fairly regardless of their different starting prices. This removes the bias of raw price comparison and reveals true performance.</p>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 4 &mdash; The Findings</h3>
+<img src="FINAL_STOCK_WAR_DASHBOARD.png" style="width:100%; border-radius:12px; margin-bottom:16px; object-fit: cover;">
+<p style="font-size:13px; line-height:1.8; margin-bottom:16px;">Apple grew 110% over the period, outperforming Tesla's 80% growth by 30 percentage points. More importantly, Tesla carried more than double the risk &mdash; with a daily volatility of 3.87% compared to Apple's 1.66%. Apple delivered better returns with significantly less risk.</p>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 5 &mdash; Key Skills Demonstrated</h3>
+<ul style="font-size:13px; line-height:1.8; margin-bottom:16px; margin-left: 20px;">
+  <li>Designed and built a relational MySQL database from scratch</li>
+  <li>Wrote advanced SQL including window functions and joins</li>
+  <li>Connected SQL database to Python for live data extraction</li>
+  <li>Applied base-100 normalization for fair financial comparison</li>
+  <li>Used linear regression to identify stock momentum</li>
+  <li>Calculated real financial metrics &mdash; total growth and volatility</li>
+  <li>Built a professional dark mode dashboard with annotated insights</li>
+</ul>
+<div style="margin-top: 32px; margin-bottom: 20px;">
+  <a href="https://github.com/ratan66-collab/Stock-Vault-Analytics" target="_blank" class="contact-link" style="text-decoration:none;">View on GitHub ↗</a>
+</div>`,
+      emoji: 'S',
+      image: 'stock_vault_heading.png',
+      variant: 'wide',
+      color: 'white',
+      link: 'https://github.com/ratan66-collab/Stock-Vault-Analytics'
+    },
+    {
+      id: 2,
+      num: '02',
+      year: '2024',
+      name: 'Soleil',
+      subtitle: 'Editorial Campaign',
+      tags: ['Editorial','Motion'],
+      desc: 'Visual identity and editorial campaign for a contemporary art festival in Lyon, France.',
+      emoji: 'S',
+      variant: '',
+      color: 'orange'
+    },
+    {
+      id: 3,
+      num: '03',
+      year: '2024',
+      name: 'Forma',
+      subtitle: 'UI / UX Design System',
+      tags: ['UI','Systems','React'],
+      desc: 'A comprehensive design system built for a fast-growing SaaS platform, balancing density with clarity.',
+      emoji: 'F',
+      variant: '',
+      color: 'black'
+    },
+    {
+      id: 4,
+      num: '04',
+      year: '2024',
+      name: 'Ondine',
+      subtitle: 'Interactive Installation',
+      tags: ['Creative Tech','3D','Motion'],
+      desc: 'An audio-reactive installation exploring the meeting of water, light, and digital geometry.',
+      emoji: 'O',
+      variant: '',
+      color: 'white'
+    },
+    {
+      id: 5,
+      num: '05',
+      year: '2023',
+      name: 'Paréidolie',
+      subtitle: 'Photography Book',
+      tags: ['Print','Editorial'],
+      desc: 'Art direction and layout design for a fine art photography monograph on the theme of seeing patterns in randomness.',
+      emoji: 'P',
+      variant: '',
+      color: 'orange'
+    },
+    {
+      id: 6,
+      num: '06',
+      year: '2023',
+      name: 'Véloce',
+      subtitle: 'App Design & Branding',
+      tags: ['Mobile','Branding','UI'],
+      desc: 'End-to-end product design for a cycling app. Swift, minimal, and built for athletes who don\'t compromise.',
+      emoji: 'V',
+      variant: '',
+      color: 'black'
+    }
+  ];
+
+  function makeBarcodeHTML(color) {
+    const bars = [3,2,4,2,3,1,4,2,3,2,4,1,3,2,4,3,2,1,3,4];
+    return bars.map(h => `<span style="height:${h * 4}px;background:currentColor;width:2px;display:inline-block;opacity:.6"></span>`).join('');
+  }
+
+  function renderCards() {
+    const grid = document.getElementById('portfolioGrid');
+    grid.innerHTML = '';
+
+    projects.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = `ticket-card ${p.variant} ${p.color === 'orange' ? 'orange-card' : p.color === 'black' ? 'black-card' : ''} reveal stagger-${(i%5)+1}`;
+      card.dataset.id = p.id;
+
+      const bgColors = {white:'#1a1008', orange:'#0a0a0a', black:'#1a0f08'};
+      const bg = bgColors[p.color];
+
+      card.innerHTML = `
+        <div class="ticket-img" style="background:${bg}">
+          ${p.image ? `<img src="${p.image}">` : `<div class="ticket-img-placeholder" style="color:${p.color==='black'?'#fff':'#fff'}">${p.emoji}</div>`}
+          <div class="ticket-accent tr"></div>
+        </div>
+        <div class="ticket-punch-row" style="margin-top:-12px;margin-bottom:0">
+          <div class="ticket-punch"></div>
+        </div>
+        <div class="ticket-body">
+          <div class="ticket-meta">
+            <span>${p.num}</span>
+            <span class="dash"></span>
+            <span class="ticket-year">${p.year}</span>
+          </div>
+          <div class="ticket-name">${p.name}</div>
+          <div class="ticket-subtitle">${p.subtitle}</div>
+          <div class="ticket-tags">
+            ${p.tags.map(t => `<span class="ticket-tag">${t}</span>`).join('')}
+            ${p.link ? `<a href="${p.link}" target="_blank" class="ticket-tag" style="text-decoration:none; background:var(--orange); color:var(--black); border-color:var(--orange); cursor:pointer; font-size:12px; padding:6px 14px; font-weight:bold; letter-spacing:1px; margin-top:-2px;" onclick="event.stopPropagation()">GitHub ↗</a>` : ''}
+          </div>
+          <div class="ticket-footer">
+            <span class="ticket-label-row">VIEW PROJECT</span>
+            <div class="ticket-barcode">${makeBarcodeHTML()}</div>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => openModal(p));
+      grid.appendChild(card);
+    });
+
+    // re-observe new cards
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // Modal
+  function openModal(p) {
+    document.getElementById('modalMeta').textContent = `${p.num} — ${p.year} — ${p.tags.join(' / ')}`;
+    document.getElementById('modalTitle').textContent = p.name;
+    document.getElementById('modalDesc').innerHTML = p.desc + (p.extraHtml ? p.extraHtml : '<br><br>Each element carefully considered, each interaction deliberate. A work that speaks to those who look closely.');
+    document.getElementById('modalImgPlaceholder').textContent = p.emoji;
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('modalOverlay').classList.remove('open');
+  });
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay'))
+      document.getElementById('modalOverlay').classList.remove('open');
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  // Active nav
+  const sections = ['hero','about','portfolio','contact'];
+  const navLinks = document.querySelectorAll('.nav-link-item');
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  // Init
+  renderCards();
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+  </script>
+
+  <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        const COUNT = 1500; // Drastically reduced for extreme performance
+        const SPEED_MULT = 1;
+        const AUTO_SPIN = true;
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.01);
+        
+        const container = document.getElementById('particle-container');
+        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 2000);
+        camera.position.set(0, 0, 100);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
+        renderer.setPixelRatio(1); // Force 1x pixel ratio to prevent lag on Retina displays
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.autoRotate = AUTO_SPIN;
+        controls.autoRotateSpeed = 2.0;
+
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        // Halve the bloom resolution for a massive GPU performance boost
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(container.clientWidth / 2, container.clientHeight / 2), 1.5, 0.4, 0.85);
+        bloomPass.strength = 1.8; bloomPass.radius = 0.4; bloomPass.threshold = 0;
+        composer.addPass(bloomPass);
+
+        const dummy = new THREE.Object3D();
+        const color = new THREE.Color();
+        const target = new THREE.Vector3();
+        
+        const geometry = new THREE.TetrahedronGeometry(0.25);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        
+        const instancedMesh = new THREE.InstancedMesh(geometry, material, COUNT);
+        instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        scene.add(instancedMesh);
+
+        const positions = [];
+        for(let i=0; i<COUNT; i++) {
+            positions.push(new THREE.Vector3((Math.random()-0.5)*100, (Math.random()-0.5)*100, (Math.random()-0.5)*100));
+            instancedMesh.setColorAt(i, color.setHex(0x00ff88));
+        }
+
+        const PARAMS = {"radius":104.8,"flow":0.39,"vortex":3.28,"layers":7.88,"pulse":1.12};
+        const addControl = (id, label, min, max, val) => PARAMS[id] !== undefined ? PARAMS[id] : val;
+        
+        const clock = new THREE.Clock();
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime() * SPEED_MULT;
+            
+            controls.update();
+
+            // Fetch control parameters once per frame instead of per particle
+            const radius = addControl("radius", "Field Radius", 40, 220, 120);
+            const flow = addControl("flow", "Flow Speed", 0, 3, 0.9);
+            const vortex = addControl("vortex", "Vortex Strength", 0, 8, 3.5);
+            const layers = addControl("layers", "Energy Layers", 2, 16, 8);
+            const pulse = addControl("pulse", "Pulse", 0, 4, 1.5);
+            const golden = 2.399963229728653;
+
+            for(let i=0; i<COUNT; i++) {
+                 const t = i / (COUNT + 0.0001);
+                 const layer = Math.floor(t * layers);
+                 const layerT = layer / (layers + 0.0001);
+                 
+                 const phi = Math.acos(1 - 2 * t);
+                 const theta = i * golden + time * flow;
+                 
+                 const wave = Math.sin(theta * 2.0 + time * pulse + layerT * 12.0);
+                 const breathing = 1.0 + 0.18 * Math.sin(time * pulse + layerT * 8.0);
+                 const r = radius * breathing;
+                 
+                 const sx = Math.sin(phi) * Math.cos(theta);
+                 const sy = Math.cos(phi);
+                 const sz = Math.sin(phi) * Math.sin(theta);
+                 
+                 const swirl = vortex * (0.15 + 0.85 * Math.abs(sy));
+                 
+                 const x = (sx + Math.cos(theta * 3.0 + time) * swirl * 0.08) * r;
+                 const y = (sy + wave * 0.12) * r;
+                 const z = (sz + Math.sin(theta * 3.0 + time) * swirl * 0.08) * r;
+                 
+                 target.set(x, y, z);
+                 
+                 const energy = 0.5 + 0.5 * wave;
+                 const hue = (0.55 + energy * 0.25 + layerT * 0.15 + time * 0.02) % 1;
+                 const saturation = 0.8 + energy * 0.2;
+                 const lightness = 0.25 + energy * 0.5 + (1.0 - Math.abs(sy)) * 0.15;
+                 
+                 color.setHSL(hue < 0 ? hue + 1 : hue, saturation > 1 ? 1 : saturation, lightness > 1 ? 1 : lightness);
+                 
+                 positions[i].lerp(target, 0.1);
+                 dummy.position.copy(positions[i]);
+                 dummy.updateMatrix();
+                 instancedMesh.setMatrixAt(i, dummy.matrix);
+                 instancedMesh.setColorAt(i, color); 
+            }
+            instancedMesh.instanceMatrix.needsUpdate = true;
+            instancedMesh.instanceColor.needsUpdate = true;
+
+            composer.render();
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            composer.setSize(container.clientWidth, container.clientHeight);
+        });
+  </script>
+</body>
+</html>
