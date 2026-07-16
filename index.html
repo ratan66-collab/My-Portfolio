@@ -1307,6 +1307,7 @@
   <a href="https://github.com/ratan66-collab/Brazil-Ecommerce-Analytics" target="_blank" class="contact-link" style="text-decoration:none;">View on GitHub ↗</a>
 </div>`,
       emoji: 'B',
+      modalImage: 'dashboard.png',
       image: 'brazil_ecommerce.png',
       variant: '',
       color: 'orange',
@@ -1431,7 +1432,13 @@
     document.getElementById('modalMeta').textContent = `${p.num} — ${p.year} — ${p.tags.join(' / ')}`;
     document.getElementById('modalTitle').textContent = p.name;
     document.getElementById('modalDesc').innerHTML = p.desc + (p.extraHtml ? p.extraHtml : '<br><br>Each element carefully considered, each interaction deliberate. A work that speaks to those who look closely.');
-    document.getElementById('modalImgPlaceholder').textContent = p.emoji;
+    const modalImg = document.getElementById('modalImg');
+    const displayImg = p.modalImage || p.image;
+    if (displayImg) {
+      modalImg.innerHTML = `<img src="${displayImg}" style="width:100%; height:100%; object-fit: cover;"> <div class="modal-accent"></div>`;
+    } else {
+      modalImg.innerHTML = `<div class="modal-img-placeholder" id="modalImgPlaceholder">${p.emoji}</div> <div class="modal-accent"></div>`;
+    }
     document.getElementById('modalOverlay').classList.add('open');
   }
 
