@@ -478,7 +478,7 @@
 
   .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 
@@ -512,7 +512,7 @@
 
   .ticket-img {
     width: 100%;
-    height: 200px;
+    height: 380px;
     position: relative;
     overflow: hidden;
     background: #1a1008;
@@ -1051,19 +1051,21 @@
 <div class="ticker">
   <div class="ticker-inner" id="tickerInner">
     <span>UI / UX Design</span>
-    <span>Brand Identity</span>
-    <span>Editorial Design</span>
+    <span>Web Design</span>
     <span>Web Development</span>
-    <span>Motion Graphics</span>
-    <span>Art Direction</span>
-    <span>Typography</span>
+    <span>Data Analytics</span>
+    <span>Data Science</span>
+    <span>Machine Learning</span>
+    <span>Neural Network</span>
+    <span>Artificial Intelligence</span>
     <span>UI / UX Design</span>
-    <span>Brand Identity</span>
-    <span>Editorial Design</span>
+    <span>Web Design</span>
     <span>Web Development</span>
-    <span>Motion Graphics</span>
-    <span>Art Direction</span>
-    <span>Typography</span>
+    <span>Data Analytics</span>
+    <span>Data Science</span>
+    <span>Machine Learning</span>
+    <span>Neural Network</span>
+    <span>Artificial Intelligence</span>
   </div>
 </div>
 
@@ -1125,8 +1127,11 @@
     <div class="contact-left reveal">
       <div class="section-label" style="margin-bottom:20px">03 — Get in Touch</div>
       <h2 class="contact-title">Let's<br><em>Work</em><br>Together</h2>
-      <div class="contact-links">
-        <a href="mailto:sursinghratan@gmail.com" class="contact-link">✉ Email me</a>
+      <div class="contact-links" style="align-items: flex-start;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+          <a href="mailto:sursinghratan@gmail.com" class="contact-link">✉ Email me</a>
+          <span style="font-size: 12px; font-weight: 500; opacity: 0.7; letter-spacing: 0.05em;">sursinghratan@gmail.com</span>
+        </div>
         <a href="tel:9311855581" class="contact-link outline">📞 9311855581</a>
         <a href="https://www.linkedin.com/in/ratansingh66" class="contact-link outline">↗ LinkedIn</a>
       </div>
@@ -1223,13 +1228,92 @@
 </div>`,
       emoji: 'S',
       image: 'stock_vault_heading.png',
-      variant: 'wide',
+      variant: '',
       color: 'white',
       link: 'https://github.com/ratan66-collab/Stock-Vault-Analytics'
     },
     {
       id: 2,
       num: '02',
+      year: '2026',
+      name: 'Mediflow',
+      subtitle: 'Medical Data Analysis',
+      tags: ['React', 'FastAPI', 'AI'],
+      desc: 'A comprehensive medical data analysis and component handler platform leveraging Gemini 2.0 Flash to extract structured data from medical documents and assist with physiotherapy planning.',
+      extraHtml: `
+<img src="mediflow_heading.png" style="width:100%; border-radius:12px; margin-bottom:16px; object-fit: cover;">
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 1 &mdash; Intelligent Report Analysis</h3>
+<p style="font-size:13px; line-height:1.8; margin-bottom:16px;">Mediflow integrates Google Gemini 2.0 Flash to process PDFs and images, extracting structured data such as patient data, test types, and specific metrics to generate actionable medical insights.</p>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 2 &mdash; Advanced Visualizations</h3>
+<p style="font-size:13px; line-height:1.8; margin-bottom:16px;">The platform features interactive React components such as BodyMap to dynamically highlight affected organs, RangeBar to visualize metric ranges, and trend graphs for monitoring patient progress over time.</p>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 3 &mdash; AI Call Assistant</h3>
+<p style="font-size:13px; line-height:1.8; margin-bottom:16px;">Includes a dedicated module for automated appointment scheduling via a voice/call interface, built with Pydantic data contracts and local SQLite databases.</p>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 4 &mdash; Project Architecture</h3>
+<ul style="font-size:13px; line-height:1.8; margin-bottom:16px; margin-left: 20px;">
+  <li><strong>Frontend</strong> &mdash; React 19 with Vite 5, Tailwind CSS 3, recharts, Supabase</li>
+  <li><strong>Backend</strong> &mdash; FastAPI, SQLAlchemy with PostgreSQL</li>
+  <li><strong>AI Integration</strong> &mdash; Google Gemini 2.0 Flash for document analysis and status classification</li>
+  <li><strong>Call Assistant</strong> &mdash; Independent module for handling automated patient appointment bookings</li>
+</ul>
+
+<div style="margin-top: 32px; margin-bottom: 20px;">
+  <a href="https://github.com/ratan66-collab/mediflow" target="_blank" class="contact-link" style="text-decoration:none;">View on GitHub ↗</a>
+</div>`,
+      emoji: 'M',
+      image: 'mediflow_heading.png',
+      variant: '',
+      color: 'black',
+      link: 'https://github.com/ratan66-collab/mediflow'
+    },
+    {
+      id: 3,
+      num: '03',
+      year: '2024',
+      name: 'Brazil E-Commerce',
+      subtitle: 'Data Analytics & Visualization',
+      tags: ['Python', 'SQL', 'Tableau'],
+      desc: 'A comprehensive end-to-end data analytics project using the Olist Brazilian E-Commerce Public Dataset to extract actionable business insights.',
+      extraHtml: `
+<img src="dashboard.png" style="width:100%; border-radius:12px; margin-bottom:16px; object-fit: cover;">
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 1 &mdash; Project Objectives</h3>
+<ul style="font-size:13px; line-height:1.8; margin-bottom:16px; margin-left: 20px;">
+  <li><strong>Sales & Revenue Trend Analysis:</strong> Understand seasonal patterns and monthly revenue growth.</li>
+  <li><strong>Product Performance:</strong> Identify top-performing product categories.</li>
+  <li><strong>Seller Analytics:</strong> Evaluate top sellers and their contribution to GMV.</li>
+  <li><strong>Customer Satisfaction:</strong> Analyze correlation between categories, delivery, and review scores.</li>
+  <li><strong>Geographical Insights:</strong> Map out revenue generation across Brazilian states.</li>
+</ul>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 2 &mdash; Key Dashboard Insights</h3>
+<ul style="font-size:13px; line-height:1.8; margin-bottom:16px; margin-left: 20px;">
+  <li><strong>Revenue Trends:</strong> Significant revenue spikes in specific months (e.g. May, July).</li>
+  <li><strong>Top Categories:</strong> Health & Beauty and Bed Bath Table are the highest revenue generators.</li>
+  <li><strong>Customer Satisfaction:</strong> Majority of revenue from highly satisfied customers (Score 5).</li>
+  <li><strong>Geographic Hotspots:</strong> Revenue is heavily concentrated in states like SP (São Paulo).</li>
+</ul>
+
+<h3 style="font-family:'Bodoni Moda',serif;font-style:italic;margin-bottom:10px;margin-top:20px;">Section 3 &mdash; Technology Stack</h3>
+<ul style="font-size:13px; line-height:1.8; margin-bottom:16px; margin-left: 20px;">
+  <li><strong>Python (Pandas, NumPy):</strong> Data cleaning, preprocessing, and EDA.</li>
+  <li><strong>SQL:</strong> Database schema design, data querying, and aggregation.</li>
+  <li><strong>Tableau:</strong> Data visualization and interactive dashboard creation.</li>
+</ul>
+
+<div style="margin-top: 32px; margin-bottom: 20px;">
+  <a href="https://github.com/ratan66-collab/Brazil-Ecommerce-Analytics" target="_blank" class="contact-link" style="text-decoration:none;">View on GitHub ↗</a>
+</div>`,
+      emoji: 'B',
+      image: 'dashboard.png',
+      variant: '',
+      color: 'orange',
+      link: 'https://github.com/ratan66-collab/Brazil-Ecommerce-Analytics'
+    },
+    {
+      id: 4,
+      num: '04',
       year: '2024',
       name: 'Soleil',
       subtitle: 'Editorial Campaign',
@@ -1240,8 +1324,8 @@
       color: 'orange'
     },
     {
-      id: 3,
-      num: '03',
+      id: 5,
+      num: '05',
       year: '2024',
       name: 'Forma',
       subtitle: 'UI / UX Design System',
@@ -1252,8 +1336,8 @@
       color: 'black'
     },
     {
-      id: 4,
-      num: '04',
+      id: 6,
+      num: '06',
       year: '2024',
       name: 'Ondine',
       subtitle: 'Interactive Installation',
@@ -1264,8 +1348,8 @@
       color: 'white'
     },
     {
-      id: 5,
-      num: '05',
+      id: 7,
+      num: '07',
       year: '2023',
       name: 'Paréidolie',
       subtitle: 'Photography Book',
@@ -1276,8 +1360,8 @@
       color: 'orange'
     },
     {
-      id: 6,
-      num: '06',
+      id: 8,
+      num: '08',
       year: '2023',
       name: 'Véloce',
       subtitle: 'App Design & Branding',
